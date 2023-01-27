@@ -7,4 +7,13 @@ $account = Get-AzStorageAccount -ResourceGroupName "PiotrResourceGroup" -Name "n
 $account
 $table = (Get-AzStorageTable -Context $account.Context -Name "NumberOfPatrons").CloudTable
 #Get-AzTableRow -table $table -PartitionKey "partition1" | Select-Object NoOfPatrons, RowKey, TotalAmount, MonthlyAmount | Format-Table
-Get-AzTableRow -table $table -PartitionKey "partition1" | Select-Object NoOfPatrons, RowKey, TotalAmount, MonthlyAmount | ConvertTo-Csv
+
+$data = Get-AzTableRow -table $table -PartitionKey "partition1" | Select-Object RowKey, NoOfPatrons, MonthlyAmount, TotalAmount # | ConvertTo-Csv
+
+foreach($item in $data) {
+    $item.TotalAmount = $item.TotalAmount.Replace(" ", "")
+    $item.MonthlyAmount = $item.MonthlyAmount.Replace(" ", "")
+}
+
+$data | ConvertTo-Csv | Out-File -FilePath "C:/temp/stats.csv"
+
