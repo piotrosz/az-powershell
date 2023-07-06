@@ -3,7 +3,9 @@ using System.Globalization;
 using NowySwiatStatsPlot;
 using ScottPlot;
 
-using var reader = new StreamReader(@"C:\temp\stats.csv");
+var outDir = "C:\\temp";
+
+using var reader = new StreamReader(@$"{outDir}\stats.csv");
 using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
 var records = csv.GetRecords<PlotRecord>().ToList();
 Console.WriteLine(records.Count());
@@ -18,7 +20,7 @@ plotNoOfPatrons.XAxis.DateTimeFormat(true);
 plotNoOfPatrons.Title("Number of patrons in 2023");
 plotNoOfPatrons.YAxis.Label("Number of patrons");
 
-plotNoOfPatrons.SaveFig(@"C:\temp\no-of-patrons.png");
+plotNoOfPatrons.SaveFig(@$"{outDir}\no-of-patrons.png");
 
 double[] monthlyAmount = records.Where(x => x.MonthlyAmount.HasValue).Select(x => (double)x.MonthlyAmount.Value).ToArray();
 double[] monthlyAmountDates = records.Where(x => x.MonthlyAmount.HasValue).Select(x => x.Date.ToOADate()).ToArray();
@@ -44,4 +46,4 @@ plotTotalAmount.XAxis.DateTimeFormat(true);
 plotTotalAmount.Title("Total amount in 2023");
 plotTotalAmount.YAxis.Label("Total amount");
 
-plotTotalAmount.SaveFig(@"C:\temp\total-amount.png");
+plotTotalAmount.SaveFig(@$"{outDir}\total-amount.png");

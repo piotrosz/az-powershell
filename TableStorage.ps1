@@ -3,7 +3,7 @@ Import-Module AzTable
 
 Add-AzAccount
 
-$account = Get-AzStorageAccount -ResourceGroupName "PiotrResourceGroup" -Name "nowyswiat"
+$account = Get-AzStorageAccount -ResourceGroupName "nowyswiatfn" -Name "nowyswiatfn3bd064"
 $account
 $table = (Get-AzStorageTable -Context $account.Context -Name "NumberOfPatrons").CloudTable
 #Get-AzTableRow -table $table -PartitionKey "partition1" | Select-Object NoOfPatrons, RowKey, TotalAmount, MonthlyAmount | Format-Table

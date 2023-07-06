@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="30.0.1" />
-    <PackageReference Include="ScottPlot" Version="4.1.60" />
+    <PackageReference Include="ScottPlot" Version="4.1.64" />
   </ItemGroup>
 
 </Project>
