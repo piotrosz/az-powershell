@@ -2,8 +2,10 @@ Install-Module AzTable
 Import-Module AzTable
 
 Add-AzAccount
+$rgName = "nowyswiatfn"
+$storageAccountName = "nowyswiatfn3bd064"
 
-$account = Get-AzStorageAccount -ResourceGroupName "nowyswiatfn" -Name "nowyswiatfn3bd064"
+$account = Get-AzStorageAccount -ResourceGroupName $rgName -Name $storageAccountName
 $account
 $table = (Get-AzStorageTable -Context $account.Context -Name "NumberOfPatrons").CloudTable
 #Get-AzTableRow -table $table -PartitionKey "partition1" | Select-Object NoOfPatrons, RowKey, TotalAmount, MonthlyAmount | Format-Table
@@ -17,3 +19,9 @@ foreach($item in $data) {
 
 $data | ConvertTo-Csv | Out-File -FilePath "C:/temp/stats.csv"
 
+
+# -----------------------------------
+# Create blob storage
+$blobStorageAccountKey=$(az storage account keys list -g $rgName -n $storageAccountName --query "[0].value" --output tsv)
+az storage container create --name plots --account-name $storageAccountName --account-key $blobStorageAccountKey
+#az storage container create --name thumbnails --account-name $blobStorageAccount --account-key $blobStorageAccountKey --public-access container
